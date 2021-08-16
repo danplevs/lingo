@@ -12,4 +12,5 @@ dependencies:
   - python=3.9
   - ipython=7.26
   - spacy=3.1
+  - jupyterlab=3.1
 prefix: C:\Users\daniel\anaconda3\envs\learning-german
