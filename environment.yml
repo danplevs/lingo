@@ -1,0 +1,18 @@
+name: learning-german
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - pip
+  - python-dotenv=0.19
+  - google-cloud-translate=2.0
+  - pandas=1.3
+  - ipykernel=6.1
+  - python=3.9
+  - ipython=7.26
+  - spacy=3.1
+  - jupyterlab=3.1
+  - pip:
+    - gtts==2.2.*
+    - https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.1.0/en_core_web_sm-3.1.0-py3-none-any.whl
+    - https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.1.0/de_core_news_sm-3.1.0-py3-none-any.whl
