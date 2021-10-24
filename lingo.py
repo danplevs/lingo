@@ -4,6 +4,7 @@ from spacy.language import Language
 from dataclasses import dataclass, field
 from typing import List, Dict
 from collections import defaultdict
+from pandas import DataFrame
 
 
 class NLPModel(ABC):
@@ -29,16 +30,16 @@ class NLP:
     def __post_init__(self):
         self.nlp = self.model.load_model()
         
-    
     def process(self):
         doc = self.nlp(self.text)
         for token in doc:
-            self.part_of_speech["words"].append(token.text)
+            self.part_of_speech["word"].append(token.text)
             self.part_of_speech["lemma"].append(token.lemma_)
             self.part_of_speech["pos"].append(token.pos_)
             self.part_of_speech["detail"].append(explain(token.tag_))
             
-            print(token.text, token.lemma_, token.pos_, explain(token.tag_))
+    def table_view(self):
+        return DataFrame(self.part_of_speech).query("pos != PUNCT")
 
 class Translator:
     pass
@@ -54,7 +55,7 @@ def main():
     
     test.process()
     
-    print(test)
+    print(test.table_view())
 
 if __name__ == "__main__":
     main()
