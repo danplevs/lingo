@@ -1,3 +1,3 @@
 # learning-german
-This repository contains the notebook that I've created to help me in my learning german journey, with functions like translation, NLP and text to speech. 
-Feel free to use it yourself, but have in mind that you'll need credentials from a google cloud service account. 
+This repository contains the notebook that I've created to help me learn some german, with functions like translation, NLP and text to speech. 
+I've just started to refactor this little project (see refactor branch), aiming to apply new python and software design skills I have been learning and maybe extend the project in the future, with more supported languages and functionalities.
