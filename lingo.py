@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from spacy import load, explain
 from spacy.language import Language
 from dataclasses import dataclass, field
-from typing import List, Dict
+from typing import List, DefaultDict
 from collections import defaultdict
 from pandas import DataFrame
 
@@ -25,10 +25,11 @@ class NLP:
     text: str
     model: NLPModel
     nlp: Language = field(init=False, repr=False)
-    part_of_speech: Dict[str, List[str]] = field(init=False, default_factory=lambda: defaultdict(list))
+    part_of_speech: DefaultDict[str, List[str]] = field(init=False)
     
     def __post_init__(self):
         self.nlp = self.model.load_model()
+        self.part_of_speech = defaultdict(list)
         
     def process(self):
         doc = self.nlp(self.text)
@@ -39,7 +40,7 @@ class NLP:
             self.part_of_speech["detail"].append(explain(token.tag_))
             
     def table_view(self):
-        return DataFrame(self.part_of_speech).query("pos != PUNCT")
+        return DataFrame(self.part_of_speech).query("pos != 'PUNCT'")
 
 class Translator:
     pass
@@ -51,7 +52,7 @@ class Class:
     pass
 
 def main():
-    test = NLP("Doing some tests", ENModel)
+    test = NLP("Doing some tests.", ENModel)
     
     test.process()
     
