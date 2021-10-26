@@ -1,46 +1,56 @@
 from abc import ABC, abstractmethod
-from spacy import load, explain
-from spacy.language import Language
 from dataclasses import dataclass, field
-from typing import List, DefaultDict
+from typing import List, DefaultDict, Sequence
 from collections import defaultdict
-from pandas import DataFrame
+import spacy
+from spacy.language import Language
+from spacy import displacy
 
 
-class NLPModel(ABC):
+class LanguageModel(ABC):
+    """Language specific NLP model"""
     @abstractmethod
-    def load_model() -> Language:
-        pass
+    def load_model(self) -> Language:
+        """Load model pipeline"""
 
-class ENModel(NLPModel):
-    def load_model() -> Language:
-        return load("en_core_web_sm")
+class ENModel(LanguageModel):
+    """English NLP model"""
+    @classmethod
+    def load_model(cls) -> Language:
+        return spacy.load("en_core_web_sm")
 
-class DEModel(NLPModel):
-    def load_model() -> Language:
-        return load("de_core_news_sm")
+class DEModel(LanguageModel):
+    """German NLP model"""
+    @classmethod
+    def load_model(cls) -> Language:
+        return spacy.load("de_core_news_sm")
 
 @dataclass
 class NLP:
+    """NLP processor and renderer"""
     text: str
-    model: NLPModel
+    model: LanguageModel
     nlp: Language = field(init=False, repr=False)
-    part_of_speech: DefaultDict[str, List[str]] = field(init=False)
-    
+    doc: Sequence[spacy.tokens.Doc] = field(init=False, repr=False)
+
     def __post_init__(self):
         self.nlp = self.model.load_model()
-        self.part_of_speech = defaultdict(list)
-        
-    def process(self):
-        doc = self.nlp(self.text)
-        for token in doc:
-            self.part_of_speech["word"].append(token.text)
-            self.part_of_speech["lemma"].append(token.lemma_)
-            self.part_of_speech["pos"].append(token.pos_)
-            self.part_of_speech["detail"].append(explain(token.tag_))
-            
-    def table_view(self):
-        return DataFrame(self.part_of_speech).query("pos != 'PUNCT'")
+        self.doc = self.nlp(self.text)
+
+    def process(self) -> DefaultDict[str, List[str]]:
+        """Process part of speech tags"""
+        part_of_speech: DefaultDict[str, List[str]] = defaultdict(list)
+        for token in self.doc:
+            part_of_speech["word"].append(token.text)
+            part_of_speech["lemma"].append(token.lemma_)
+            part_of_speech["detail"].append(spacy.explain(token.tag_))
+
+        return part_of_speech
+
+    def plot_dependencies(self) -> str:
+        """Render a dependency parse tree"""
+        return displacy.render(self.doc, style='dep')
+
 
 class Translator:
     pass
@@ -53,10 +63,8 @@ class Class:
 
 def main():
     test = NLP("Doing some tests.", ENModel)
-    
-    test.process()
-    
-    print(test.table_view())
+
+    print(test.plot_dependencies())
 
 if __name__ == "__main__":
     main()
