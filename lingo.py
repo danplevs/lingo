@@ -1,3 +1,5 @@
+"""Main module from the language learning helper.
+Contains NLP and translation functionalities, and the data container objects."""
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import List, DefaultDict, Sequence
@@ -8,26 +10,26 @@ from spacy import displacy
 
 
 class LanguageModel(ABC):
-    """Language specific NLP model"""
+    """Basic representation of a specific NLP model."""
     @abstractmethod
     def load_model(self) -> Language:
         """Load model pipeline"""
 
 class ENModel(LanguageModel):
-    """English NLP model"""
+    """English NLP model."""
     @classmethod
     def load_model(cls) -> Language:
         return spacy.load("en_core_web_sm")
 
 class DEModel(LanguageModel):
-    """German NLP model"""
+    """German NLP model."""
     @classmethod
     def load_model(cls) -> Language:
         return spacy.load("de_core_news_sm")
 
 @dataclass
 class NLP:
-    """NLP processor and renderer"""
+    """NLP processor and renderer."""
     text: str
     model: LanguageModel
     nlp: Language = field(init=False, repr=False)
@@ -38,7 +40,7 @@ class NLP:
         self.doc = self.nlp(self.text)
 
     def process(self) -> DefaultDict[str, List[str]]:
-        """Process part of speech tags"""
+        """Process part of speech tags."""
         part_of_speech: DefaultDict[str, List[str]] = defaultdict(list)
         for token in self.doc:
             part_of_speech["word"].append(token.text)
@@ -48,7 +50,7 @@ class NLP:
         return part_of_speech
 
     def plot_dependencies(self) -> str:
-        """Render a dependency parse tree"""
+        """Render a dependency parse tree."""
         return displacy.render(self.doc, style='dep')
 
 
@@ -62,6 +64,7 @@ class Class:
     pass
 
 def main():
+    """Main function. It's being used only for testing purposes for now."""
     test = NLP("Doing some tests.", ENModel)
 
     print(test.plot_dependencies())
