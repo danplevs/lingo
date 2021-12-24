@@ -1,41 +1,10 @@
-"""Main module from the language learning helper.
-Contains NLP and translation functionalities, and the data container objects."""
-from abc import ABC, abstractmethod
+"""NLP module containing pos tagging, translation and text to speech functions."""
 from typing import List, DefaultDict, Sequence
 from collections import defaultdict
+
 import spacy
 from spacy import displacy
-
-
-class Language(ABC):
-    """Basic representation of a language NLP model."""
-
-    iso_639_1: str
-
-    @classmethod
-    @abstractmethod
-    def load_model(cls) -> spacy.language.Language:
-        """Load model pipeline"""
-
-
-class English(Language):
-    """English NLP model."""
-
-    iso_639_1 = "en"
-
-    @classmethod
-    def load_model(cls) -> spacy.language.Language:
-        return spacy.load("en_core_web_sm")
-
-
-class German(Language):
-    """German NLP model."""
-
-    iso_639_1 = "de"
-
-    @classmethod
-    def load_model(cls) -> spacy.language.Language:
-        return spacy.load("de_core_news_sm")
+from language import Language
 
 
 class NLP:
@@ -65,21 +34,3 @@ class NLP:
     def plot_phrase(self, phrase) -> str:
         """Render a dependency parse tree of a phrase."""
         return displacy.serve(self.nlp(phrase), style="dep")
-
-
-class Lesson:
-    pass
-
-
-class Class:
-    pass
-
-
-def main():
-    """Main function. It's being used only for testing purposes for now."""
-    test = NLP(German)
-    print(test.process(("Testing",)))
-
-
-if __name__ == "__main__":
-    main()
