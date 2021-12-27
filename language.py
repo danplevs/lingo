@@ -1,10 +1,8 @@
 """Module containing language pipeline objects"""
 import json
-from pathlib import Path
 import spacy.language
+from config import LANGUAGE_DATA_PATH
 
-
-LANGUAGE_DATA_PATH = Path("./models.json")
 
 with LANGUAGE_DATA_PATH.open(encoding="utf-8") as file:
     models = json.load(file)
