@@ -1,17 +1,21 @@
 """NLP module containing pos tagging, translation and text to speech functions."""
+from dataclasses import dataclass
 from typing import List, DefaultDict, Sequence
 from collections import defaultdict
 
-import spacy
-from spacy import displacy
-from language import Language
+import spacy.language
+from language import Language, match_language
+from translation import detect_language
 
 
+@dataclass
 class NLP:
     """NLP processor and renderer."""
+    text: str
 
-    def __init__(self, language: Language) -> None:
-        self.nlp: spacy.language.Language = language.load_model()
+    def __post_init__(self) -> None:
+        self.language: Language = match_language(detect_language(self.text))
+        self.nlp: spacy.language.Language = self.language.load_model()
 
     def process(self, text: Sequence[str]) -> DefaultDict[str, List[str]]:
         """Process part of speech tags."""
@@ -30,7 +34,3 @@ class NLP:
                     part_of_speech["detail"].append(spacy.explain(token.tag_))
 
         return part_of_speech
-
-    def plot_phrase(self, phrase) -> str:
-        """Render a dependency parse tree of a phrase."""
-        return displacy.serve(self.nlp(phrase), style="dep")
