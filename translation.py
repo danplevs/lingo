@@ -13,5 +13,3 @@ def detect_language(text: str) -> str:
 def translate(text: str, target: str):
     """Translate a given text to a target language (iso 639-1 code)."""
     return GoogleTranslator(source="auto", target=target).translate(text)
-
-print(detect_language("Oi"))
