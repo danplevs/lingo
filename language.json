@@ -1,5 +1,0 @@
-{
-    "english": {"model": "en_core_web_sm", "iso_639-1": "en"},
-    "german": {"model": "de_core_news_sm", "iso_639-1": "de"},
-    "portuguese": {"model": "pt_core_news_sm", "iso_639-1": "pt"}
-}
