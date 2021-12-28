@@ -1,5 +1,4 @@
 """NLP module containing pos tagging, translation and text to speech functions."""
-from dataclasses import dataclass
 from typing import List, DefaultDict, Sequence
 from collections import defaultdict
 
@@ -8,13 +7,11 @@ from language import Language, match_language
 from translation import detect_language
 
 
-@dataclass
 class NLP:
     """NLP processor and renderer."""
-    text: str
-
-    def __post_init__(self) -> None:
-        self.language: Language = match_language(detect_language(self.text))
+    def __init__(self, text: str) -> None:
+        self.text: str = text
+        self.language: Language = match_language(detect_language(text))
         self.nlp: spacy.language.Language = self.language.load_model()
 
     def process(self, text: Sequence[str]) -> DefaultDict[str, List[str]]:
@@ -34,3 +31,8 @@ class NLP:
                     part_of_speech["detail"].append(spacy.explain(token.tag_))
 
         return part_of_speech
+
+print(NLP("Ich bin eine frau").text)
+print(NLP("Ich bin eine frau").language)
+print(NLP("Ich bin eine frau").nlp)
+print(NLP("Ich bin eine frau").process("Ich bin eine frau"))
