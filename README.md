@@ -6,4 +6,3 @@
 - Sentence dependencies visualizer
 - Translation and language detection
 - Text to speech
-
