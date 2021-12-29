@@ -4,6 +4,7 @@ from collections import defaultdict
 
 import spacy
 from spacy.tokens import Doc
+from spacy import displacy
 from pandas import DataFrame
 from language import Language, match_language
 from translation import detect_language
@@ -37,3 +38,6 @@ class NLP:
     
     def vocab_chart(self) -> DataFrame:
         return DataFrame.from_dict(self.process())
+    
+    def render(self) -> str:
+        return displacy.render(self.doc)
