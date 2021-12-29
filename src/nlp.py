@@ -16,13 +16,12 @@ class NLP:
         self.text: str = text
         self.language: Language = match_language(detect_language(text))
         self.nlp: spacy.language.Language = self.language.load_model()
+        self.doc: Doc = self.nlp(self.text)
 
     def process(self) -> DefaultDict[str, List[str]]:
         """Process part of speech tags."""
-        doc: Doc = self.nlp(self.text)
-
         part_of_speech: DefaultDict[str, List[str]] = defaultdict(list)
-        for token in doc:
+        for token in self.doc:
             part_of_speech["Text"].append(token.text)
             part_of_speech["Lemma"].append(token.lemma_)
             part_of_speech["Part of speech"].append(
