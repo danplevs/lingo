@@ -4,7 +4,7 @@ from collections import defaultdict
 
 import spacy
 from spacy.tokens import Doc
-import pandas as pd
+from pandas import DataFrame
 from language import Language, match_language
 from translation import detect_language
 
@@ -35,11 +35,6 @@ class NLP:
             )
 
         return part_of_speech
-
-
-nlp = NLP("Ich bin eine frau")
-
-print(nlp.text)
-print(nlp.language)
-print(nlp.nlp)
-print(nlp.process())
+    
+    def vocab_chart(self) -> DataFrame:
+        return DataFrame.from_dict(self.process())
