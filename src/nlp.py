@@ -6,7 +6,7 @@ import spacy
 from spacy.tokens import Doc
 from spacy import displacy
 from pandas import DataFrame
-from language import Language, match_language
+from language import fetch_model
 from translation import detect_language
 
 
@@ -15,8 +15,9 @@ class NLP:
 
     def __init__(self, text: str) -> None:
         self.text: str = text
-        self.language: Language = match_language(detect_language(text))
-        self.nlp: spacy.language.Language = self.language.load_model()
+        self.language: str = detect_language(self.text)
+        self.model: str = fetch_model(self.language)
+        self.nlp: spacy.language.Language = spacy.load(self.model)
         self.doc: Doc = self.nlp(self.text)
 
     def process(self) -> DefaultDict[str, List[str]]:
@@ -33,11 +34,12 @@ class NLP:
                 if spacy.explain(token.dep_) is None
                 else spacy.explain(token.dep_) + f" ({token.dep_})"
             )
-
         return part_of_speech
-    
+
     def vocab_chart(self) -> DataFrame:
+        """Create the vocabulary chart of `self.text`."""
         return DataFrame.from_dict(self.process())
-    
+
     def render(self) -> str:
+        """Render a figure of the sentence dependencies and part of speech as a HTML string."""
         return displacy.render(self.doc)
