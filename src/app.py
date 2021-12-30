@@ -8,17 +8,20 @@ from speech import text_to_speech
 
 st.set_page_config(layout="wide")
 
+st.sidebar.markdown('**<p style="font-family:sans-serif; font-size: 42px; font-weight: 600">lingo</p>**', unsafe_allow_html=True)
+st.sidebar.markdown("**Explore grammar, translation and speech, all in one place.**")
+
 first_language = st.sidebar.selectbox(
-    label="Your first language", options=FIRST_LANGUAGES_SUPPORTED
+    label="Your first language",
+    options=FIRST_LANGUAGES_SUPPORTED,
+    index=FIRST_LANGUAGES_SUPPORTED.index("English"),
 )
 
-st.title("Lingo: learn a new language")
-
 sentence = st.text_area(
-    label="Type the sentence you want to learn",
-    value="An Englishman, a Scotsman and a Irishman walk into a bar.",
-    max_chars=5000,
-    height=250,
+    label="Type the sentence you wanna learn",
+    value="Ein Engländer, ein Schotte und ein Ire betreten eine Bar",
+    max_chars=1000,
+    height=150,
 )
 
 with st.expander("Input languages supported"):
@@ -35,7 +38,6 @@ st.info(translate(sentence, target=first_language))
 
 st.header("Pronunciation")
 st.audio(text_to_speech(sentence))
-
 
 
 st.header("Vocabulary chart")
