@@ -3,6 +3,7 @@ from deep_translator import GoogleTranslator
 from google.cloud import translate_v2
 from config import GOOGLE_CREDENTIALS_PATH
 
+FIRST_LANGUAGES_SUPPORTED = [lang.title() for lang in GoogleTranslator.get_supported_languages()]
 
 def detect_language(text: str) -> str:
     """Detect the language of a given string and return the `Language` object that matches it."""
