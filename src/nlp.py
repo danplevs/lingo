@@ -1,9 +1,9 @@
 """NLP module containing pos tagging, translation and text to speech functions."""
-from typing import List, DefaultDict
+from typing import List, DefaultDict, Union
 from collections import defaultdict
 
 import spacy
-from spacy.tokens import Doc
+from spacy.tokens import Doc, Span
 from spacy import displacy
 from pandas import DataFrame
 from language import fetch_model
@@ -20,10 +20,13 @@ class NLP:
         self.nlp: spacy.language.Language = spacy.load(self.model)
         self.doc: Doc = self.nlp(self.text)
 
-    def process(self) -> DefaultDict[str, List[str]]:
+    def process(self, doc: Doc = None) -> DefaultDict[str, List[str]]:
         """Process part of speech tags."""
+        if not doc:
+            doc = self.doc
+
         part_of_speech: DefaultDict[str, List[str]] = defaultdict(list)
-        for token in self.doc:
+        for token in doc:
             part_of_speech["Text"].append(token.text)
             part_of_speech["Lemma"].append(token.lemma_)
             part_of_speech["Part of speech"].append(
@@ -36,10 +39,15 @@ class NLP:
             )
         return part_of_speech
 
-    def vocab_chart(self) -> DataFrame:
+    def vocab_chart(self, doc: Union[Span, Doc] = None) -> DataFrame:
         """Create the vocabulary chart of `self.text`."""
-        return DataFrame.from_dict(self.process())
+        if not doc:
+            doc = self.doc
+        return DataFrame.from_dict(self.process(doc))
 
-    def render(self) -> str:
+
+    def render(self, doc: Union[Span, Doc] = None) -> str:
         """Render a figure of the sentence dependencies and part of speech as a HTML string."""
-        return displacy.render(self.doc)
+        if not doc:
+            doc = self.doc
+        return displacy.render(doc)
