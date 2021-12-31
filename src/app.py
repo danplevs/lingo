@@ -15,13 +15,26 @@ st.sidebar.markdown(
 )
 st.sidebar.markdown("**Explore grammar, translation and speech, all in one place.**")
 
-first_language = st.sidebar.selectbox(
+DEFAULT_LANGUAGE_INDEX = FIRST_LANGUAGES_SUPPORTED.index("English")
+
+trans_language = st.sidebar.selectbox(
     label="Your first language",
     options=FIRST_LANGUAGES_SUPPORTED,
-    index=FIRST_LANGUAGES_SUPPORTED.index("English"),
+    index=DEFAULT_LANGUAGE_INDEX,
 )
 
-split_sents = st.sidebar.checkbox(label="Split sentences", value=False)
+split_sents = st.sidebar.checkbox(label="Split sentences", value=True)
+
+use_first_lang = st.sidebar.checkbox(
+    label="Use first language for translation", value=True
+)
+if not use_first_lang:
+    trans_language = st.sidebar.selectbox(
+        label="Select a language for translation",
+        options=FIRST_LANGUAGES_SUPPORTED,
+        index=DEFAULT_LANGUAGE_INDEX,
+    )
+
 
 # Input area
 text = st.text_area(
@@ -43,11 +56,11 @@ nlp = NLP(text)
 # Translation
 st.header("Translation")
 if not split_sents:
-    st.info(translate(nlp.text, target=first_language))
+    st.info(translate(nlp.text, target=trans_language))
 
 else:
     for sent in nlp.doc.sents:
-        st.info(translate(sent.text, target=first_language))
+        st.info(translate(sent.text, target=trans_language))
 
 # Pronunciation
 st.header("Pronunciation")
@@ -71,7 +84,7 @@ else:
         st.markdown(f"> {sent}")
         st.write(styler.to_html(), unsafe_allow_html=True)
         st.write("")
-        #st.dataframe(vocab_chart)
+        # st.dataframe(vocab_chart)
 
 # Syntactic deps
 st.header("Syntactic dependencies")
