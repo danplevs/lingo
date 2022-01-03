@@ -1,14 +1,14 @@
-name: learning-german
+name: lingo
 channels:
   - conda-forge
   - defaults
 dependencies:
+  - python
   - pip
-  - python=3.9
-  - spacy=3.2
+  - spacy=3.2.0
   - google-cloud-translate=2.0.1
   - python-dotenv=0.19
-  - streamlit=0.81
+  - streamlit=1.3
   - pandas=1.3
   - pip:
     - deep-translator==1.6.*
