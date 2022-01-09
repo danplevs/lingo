@@ -5,6 +5,7 @@ from nlp import NLP
 from language import LANGUAGES_SUPPORTED
 from translation import FIRST_LANGUAGES_SUPPORTED, translate
 from speech import text_to_speech
+import iso639
 
 st.set_page_config(layout="wide")
 
@@ -15,12 +16,12 @@ st.sidebar.markdown(
 )
 st.sidebar.markdown("**Explore grammar, translation and speech, all in one place.**")
 
-DEFAULT_LANGUAGE_INDEX = FIRST_LANGUAGES_SUPPORTED.index("English")
+DEFAULT_LANGUAGE_INDEX = FIRST_LANGUAGES_SUPPORTED.index("English - en")
 
-trans_language = st.sidebar.selectbox(
+trans_language = iso639.to_iso639_1(st.sidebar.selectbox(
     label="Your first language",
     options=FIRST_LANGUAGES_SUPPORTED,
-    index=DEFAULT_LANGUAGE_INDEX,
+    index=DEFAULT_LANGUAGE_INDEX).split(" - ")[0]
 )
 
 split_sents = st.sidebar.checkbox(label="Split sentences", value=True)
