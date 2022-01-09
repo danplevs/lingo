@@ -14,7 +14,7 @@ Lastly, run the following commands in your terminal, from the **same dir of the 
 ```
 git clone https://github.com/danplevs/lingo.git
 cd lingo
-mv ../lingo-336420-40eefe08de02.json ./credentials/google-translate.json
+mv ../ENTER_CREDENTIALS_FILE_NAME.json ./credentials/google-translate.json
 ```
 We'll install depencies in a virtual environment, which have platform-specific commands. If you have conda installed, just use:
 ```
@@ -24,7 +24,7 @@ Otherwise, we'll use pip:
 ### Windows (PowerShell)
 ```
 python -m venv .
-source ./Scripts/Activate.ps1
+./Scripts/Activate.ps1
 pip install -r requirements.txt
 ```
 ### POSIX (bash/zsh)
