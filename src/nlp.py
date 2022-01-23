@@ -30,12 +30,12 @@ class NLP:
             part_of_speech["Text"].append(token.text)
             part_of_speech["Lemma"].append(token.lemma_)
             part_of_speech["Part of speech"].append(
-                spacy.explain(token.tag_) + f" ({token.pos_})"
+                str(spacy.explain(token.tag_)) + f" ({token.pos_})"
             )
             part_of_speech["Syntactic dependency"].append(
                 token.dep_.lower()
-                if spacy.explain(token.dep_) is None
-                else spacy.explain(token.dep_) + f" ({token.dep_})"
+                if str(spacy.explain(token.dep_)) is None
+                else str(spacy.explain(token.dep_)) + f" ({token.dep_})"
             )
         return part_of_speech
 
