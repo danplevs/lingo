@@ -3,7 +3,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from nlp import NLP
 from language import LANGUAGES_SUPPORTED
-from translation import FIRST_LANGUAGES_SUPPORTED, translate
+from translation import FIRST_LANGUAGES_SUPPORTED, detect_language, translate
 from speech import text_to_speech
 import iso639
 
@@ -42,14 +42,16 @@ text = st.text_area(
     label="Type the text you wanna learn",
     value="Ein Engländer, ein Schotte und ein Ire betreten eine Bar",
     max_chars=1000,
-    height=150,
-)
+    height=150).strip()
 
 with st.expander("Input languages supported"):
-    st.write(LANGUAGES_SUPPORTED)
+    st.write(LANGUAGES_SUPPORTED.items())
 
 if not text:
-    st.warning("A sentence is needed to run lingo.")
+    st.error("A sentence is needed to run lingo.")
+    st.stop()
+elif detect_language(text) not in LANGUAGES_SUPPORTED.keys():
+    st.error("Unsupported language.")
     st.stop()
 
 nlp = NLP(text)
