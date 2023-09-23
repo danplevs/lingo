@@ -54,7 +54,7 @@ elif detect_language(text) not in LANGUAGES_SUPPORTED.keys():
     st.error("Unsupported language.")
     st.stop()
 
-@st.cache
+@st.cache(hash_funcs={NLP: lambda _: None})
 def process_text(text: str) -> NLP:
     return NLP(text)
 
