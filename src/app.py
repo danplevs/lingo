@@ -54,7 +54,11 @@ elif detect_language(text) not in LANGUAGES_SUPPORTED.keys():
     st.error("Unsupported language.")
     st.stop()
 
-nlp = NLP(text)
+@st.cache
+def process_text(text: str) -> NLP:
+    return NLP(text)
+
+nlp = process_text(text)
 
 # Translation
 st.header("Translation")
