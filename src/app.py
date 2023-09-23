@@ -82,12 +82,12 @@ else:
 st.header("Vocabulary chart")
 if not split_sents:
     vocab_chart = processor.vocab_chart()
-    styler = vocab_chart.style.hide_index()
+    styler = vocab_chart.style.hide()
     st.write(styler.to_html(), unsafe_allow_html=True)
 else:
     for sent in processor.doc.sents:
         vocab_chart = processor.vocab_chart(sent)
-        styler = vocab_chart.style.hide_index()
+        styler = vocab_chart.style.hide()
         st.markdown(f"> {sent}")
         st.write(styler.to_html(), unsafe_allow_html=True)
         st.write("")
