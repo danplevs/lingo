@@ -8,6 +8,7 @@ iso639==0.1.*
 gtts==2.2.*
 altair==4.0.*
 typing-extensions==4.5.0
+click<8.0,>=7.0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.2.0/en_core_web_sm-3.2.0-py3-none-any.whl
 https://github.com/explosion/spacy-models/releases/download/de_core_news_sm-3.2.0/de_core_news_sm-3.2.0-py3-none-any.whl
 https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.2.0/pt_core_news_sm-3.2.0-py3-none-any.whl
