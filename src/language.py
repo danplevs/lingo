@@ -1,9 +1,11 @@
 """Module containing languages and models."""
 import json
+from pathlib import Path
 from typing import Dict
-from config import LANGUAGE_DATA_PATH
 import iso639
 
+ROOT = Path(__file__).parents[1]
+LANGUAGE_DATA_PATH = ROOT / "models" / "models.json"
 
 with LANGUAGE_DATA_PATH.open(encoding="utf-8") as file:
     MODELS: Dict[str, str] = json.load(file)

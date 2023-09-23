@@ -1,10 +1,10 @@
 """Translation related functions."""
 from google.cloud import translate_v2
-from config import GOOGLE_CREDENTIALS_PATH
+import streamlit as st
 
 
-translate_client = translate_v2.Client.from_service_account_json(
-    GOOGLE_CREDENTIALS_PATH
+translate_client = translate_v2.Client.from_service_account_info(
+    st.secrets["gcp_service_account"]
 )
 
 FIRST_LANGUAGES_SUPPORTED = sorted(
