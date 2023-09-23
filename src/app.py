@@ -58,35 +58,35 @@ elif detect_language(text) not in LANGUAGES_SUPPORTED.keys():
 def process_text(text: str) -> NLP:
     return NLP(text)
 
-nlp = process_text(text)
+processor = NLP(text)
 
 # Translation
 st.header("Translation")
 if not split_sents:
-    st.info(translate(nlp.text, target=trans_language))
+    st.info(translate(processor.text, target=trans_language))
 
 else:
-    for sent in nlp.doc.sents:
+    for sent in processor.doc.sents:
         st.info(translate(sent.text, target=trans_language))
 
 # Pronunciation
 st.header("Pronunciation")
 if not split_sents:
-    st.audio(text_to_speech(nlp.text))
+    st.audio(text_to_speech(processor.text))
 else:
-    for sent in nlp.doc.sents:
+    for sent in processor.doc.sents:
         st.markdown(f"> {sent}")
         st.audio(text_to_speech(sent.text))
 
 # Vocab chart
 st.header("Vocabulary chart")
 if not split_sents:
-    vocab_chart = nlp.vocab_chart()
+    vocab_chart = processor.vocab_chart()
     styler = vocab_chart.style.hide_index()
     st.write(styler.to_html(), unsafe_allow_html=True)
 else:
-    for sent in nlp.doc.sents:
-        vocab_chart = nlp.vocab_chart(sent)
+    for sent in processor.doc.sents:
+        vocab_chart = processor.vocab_chart(sent)
         styler = vocab_chart.style.hide_index()
         st.markdown(f"> {sent}")
         st.write(styler.to_html(), unsafe_allow_html=True)
@@ -96,7 +96,7 @@ else:
 # Syntactic deps
 st.header("Syntactic dependencies")
 if not split_sents:
-    components.html(nlp.render(), height=450, scrolling=True)
+    components.html(processor.render(), height=450, scrolling=True)
 else:
-    for sent in nlp.doc.sents:
-        components.html(nlp.render(sent), height=450, scrolling=True)
+    for sent in processor.doc.sents:
+        components.html(processor.render(sent), height=450, scrolling=True)
