@@ -6,6 +6,8 @@
 - Translation and language detection
 - Text to speech
 
+![project demo image](https://github.com/danplevs/lingo/blob/master/img/demo.png)
+
 ## Setup
 This project uses Google Translate API to perform language detection, which means it requires the setup of a Google Cloud project. Follow the steps in the [API documentation](https://cloud.google.com/translate/docs/setup) until you have a JSON file containing your service account credentials.
 
